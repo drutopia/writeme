@@ -67,19 +67,19 @@ $md .= str_repeat("=", strlen($name)) . "\n\n";
 $md .= $composer_description . "\n\n";
 
 if ($composer_homepage) {
-  $md .= "* $composer_homepage\n\n";
+  $md .= "* $composer_homepage\n";
 }
-$md .= "* Package name: $composer_name\n\n";
+$md .= "* Package name: $composer_name\n";
 if ($git_branch_version) {
-  $md .= "* Git branch: $git_branch_version\n\n";
+  $md .= "* Git branch: $git_branch_version\n";
 }
 
 if ($composer_keywords) {
-  $md .= "* Keywords: $composer_keywords\n\n";
+  $md .= "* Keywords: $composer_keywords\n";
 }
 
 if ($composer_authors) {
-  $md .= "\n\n### Maintainers\n\n";
+  $md .= "\n\n### Maintainers\n";
   $md .= $composer_authors;
 }
 

@@ -4,20 +4,26 @@ Writeme
 
 Create and keep updated a README.md for your project, fetching details from composer.json and Git. Composer does not need to be installed to use this tool.
 
-Package: drutopia/writeme
+* http://gitlab.com/drutopia/writeme
 
-Version: dev-master
+* Package name: drutopia/writeme
 
-Tags: php, docblock, documentation, tool
+* Git branch: dev-master
 
-Project URL: http://gitlab.com/drutopia/writeme
+* Keywords: php, docblock, documentation, tool
 
 
 
-### Authors
- * Copyright (GPL-2.0+) 2018, DrutopiaLicense: <a href='https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'>GNU General Public License, version 2 or later</a>
+### Maintainers
+
+
+ * Benjamin Melançon (mlncn) - http://agaric.coop/mlncn
 
 ### Requirements
 php >=5.3.6
 
+
+### License
+
+[: GNU General Public License, version 2 or later](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)© Drutopia
 <!-- endwriteme -->
