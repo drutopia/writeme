@@ -68,13 +68,13 @@ if (isset($composer->require)) {
     $composer_deps_listarray[] = "<deps_linestart>".$dep." ".$vers;
   }
   $vars["composer_deps_list"] .= implode("",$composer_deps_listarray);
-}else{
+} else {
   $vars["composer_deps_list"] = "<deps_header>No";
 }
 
 
-/* Extracting/formating .git/HEAD data */
-$git_branch_version="";
+// Extract .git/HEAD data.
+$git_branch_version = "";
 if (file_exists('.git/HEAD')) {
   $stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
   $firstLine = $stringfromfile[0];
