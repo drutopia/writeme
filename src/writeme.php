@@ -28,9 +28,6 @@ $md_doc .= "\n\n<!-$md_trigger_end <docbloc_version> -->\n";
 $vars["git_branch_version"]="";
 $vars["composer_authors_list"]="";
 $vars["composer_copyright_year"]="";
-$vars["composer_extra_copyright_author"]="";
-$vars["composer_extra_license_title"]="";
-$vars["composer_extra_license_url"]="";
 $vars["composer_deps_list"]="";
 $vars["docbloc_version"]="";
 
@@ -42,9 +39,9 @@ $vars["composer_keywords"] = isset($composer->keywords) ? implode(", ",$composer
 $vars["composer_description"] = isset($composer->description) ? $composer->description : "";
 $vars["composer_homepage"] = isset($composer->homepage) ? $composer->homepage : "";
 $vars["composer_license"] = isset($composer->license) ? $composer->license : "";
-$vars["composer_extra_copyright_author"] = $composer->extra->copyright_author;
-$vars["composer_extra_license_title"] = $composer->extra->license_title;
-$vars["composer_extra_license_url"] = $composer->extra->license_url;
+$vars["composer_extra_copyright_author"] = isset($composer->extra->copyright_author) ? $composer->extra->copyright_author : "";
+$vars["composer_extra_license_title"] = isset($composer->extra->license_title) ? $composer->extra->license_title : "";
+$vars["composer_extra_license_url"] = isset($composer->extra->license_url) ? $composer->extra->license_url : "";
 
 $vars["copyright_year"] = date("Y");
 
