@@ -26,6 +26,10 @@ $composer_extra_copyright_author = isset($composer->extra->copyright_author) ? $
 $composer_extra_license_title = isset($composer->extra->license_title) ? $composer->extra->license_title : "";
 $composer_extra_license_url = isset($composer->extra->license_url) ? $composer->extra->license_url : "";
 
+$composer_support = [];
+foreach (['email', 'issues', 'forum', 'wiki', 'irc', 'source', 'docs', 'rss'] as $type) {
+  $composer_support[$type] = isset($composer->support->$type) ? $composer->support->$type : "";
+}
 
 $composer_authors = "";
 if (isset($composer->authors)) {
@@ -71,15 +75,39 @@ $md .= str_repeat("=", strlen($name)) . "\n\n";
 $md .= $composer_description . "\n\n";
 
 if ($composer_homepage) {
-  $md .= "* $composer_homepage\n";
+  $md .= " * $composer_homepage\n";
 }
-$md .= "* Package name: $composer_name\n";
-if ($git_branch_version) {
-  $md .= "* Git branch: $git_branch_version\n";
+if ($composer_support['docs']) {
+  $md .= " * Documentation: " . $composer_support['docs'] . "\n"; 
+}
+if ($composer_support['wiki']) {
+  $md .= " * Wiki: " . $composer_support['wiki'] . "\n"; 
+}
+if ($composer_support['issues']) {
+  $md .= " * Issues: " . $composer_support['issues'] . "\n"; 
+}
+if ($composer_support['forum']) {
+  $md .= " * Forum: " . $composer_support['forum'] . "\n"; 
+}
+if ($composer_support['irc']) {
+  $md .= " * IRC: " . $composer_support['irc'] . "\n"; 
+}
+if ($composer_support['source']) {
+  $md .= " * Source code: " . $composer_support['source'] . "\n"; 
+}
+if ($composer_support['email']) {
+  $md .= " * E-mail: " . $composer_support['email'] . "\n"; 
+}
+if ($composer_support['rss']) {
+  $md .= " * RSS: " . $composer_support['rss'] . "\n"; 
+}
+if ($composer_keywords) {
+  $md .= " * Keywords: $composer_keywords\n";
 }
 
-if ($composer_keywords) {
-  $md .= "* Keywords: $composer_keywords\n";
+$md .= " * Package name: $composer_name\n";
+if ($git_branch_version) {
+  $md .= " * Git branch: $git_branch_version\n";
 }
 
 if ($composer_authors) {
