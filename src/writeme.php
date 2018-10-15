@@ -26,11 +26,7 @@ $md_deps_linestart=" &#8226; ";
 $md_trigger_end="- @writem";
 $md_doc .= "\n\n<!-$md_trigger_end <docbloc_version> -->\n";
 
-//Variables to be extracted..
-$vars["composer_description"]="";
-$vars["composer_name"]="";
 $vars["git_branch_version"]="";
-$vars["composer_keywords"]="";
 $vars["composer_homepage"]="";
 $vars["composer_authors_list"]="";
 $vars["composer_license"]="";
@@ -41,17 +37,19 @@ $vars["composer_extra_license_url"]="";
 $vars["composer_deps_list"]="";
 $vars["docbloc_version"]="";
 
-/* Extracting/formating composer.json data */
+// Extract composer.json data.
 $composer = json_decode(file_get_contents('composer.json'));
-$vars["composer_keywords"] = isset($composer->keywords) ? implode(", ",$composer->keywords) : '';
-$vars["composer_description"] = $composer->description;
+
 $vars["composer_name"] = $composer->name;
-$vars["composer_homepage"] = $composer->homepage;
-$vars["composer_license"] = $composer->license;
-$vars["copyright_year"] = date("Y");
+$vars["composer_keywords"] = isset($composer->keywords) ? implode(", ",$composer->keywords) : "";
+$vars["composer_description"] = isset($composer->description) ? $composer->description : "";
+$vars["composer_homepage"] = isset($composer->homepage) ? $composer->homepage : "";
+$vars["composer_license"] = isset($composer->license) ? $composer->license : "";
 $vars["composer_extra_copyright_author"] = $composer->extra->copyright_author;
 $vars["composer_extra_license_title"] = $composer->extra->license_title;
 $vars["composer_extra_license_url"] = $composer->extra->license_url;
+
+$vars["copyright_year"] = date("Y");
 
 foreach ($composer->authors as $author) {
   if (isset($author->homepage)) {
