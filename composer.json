@@ -5,31 +5,25 @@
     "homepage": "http://gitlab.com/drutopia/writeme",
     "authors": [
         {
-            "name": "mlncn (Benjamin Melançon)",
+            "name": "Benjamin Melançon (mlncn)",
             "email": "ben@agaric.com",
-            "homepage": "http://agaric.coop",
-            "role": "Developer"
-        },
-        {
-            "name": "intrd (Danilo Salles)",
-            "email": "x@dann.com.br",
-            "homepage": "http://dann.com.br",
+            "homepage": "http://agaric.coop/mlncn",
             "role": "Developer"
         }
     ],
-    "license": "CC-BY-SA-4.0",
+    "license": "GPL-2.0+",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.6"
     },
     "autoload": {
         "psr-4": {
-            "telegram\\":"src/"
+            "Writeme\\": "src/"
         }
     },
     "extra": {
-        "author_twitter":"drutopiaforgood",
-        "copyright_author":"Drutopia",
-        "license_title":"Creative Commons Attribution-ShareAlike 4.0",
-        "license_url":"http://creativecommons.org/licenses/by-sa/4.0"
+        "author_twitter": "drutopiaforgood",
+        "copyright_author": "Drutopia",
+        "license_title": "GNU General Public License, version 2 or later",
+        "license_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     }
 }
