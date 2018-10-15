@@ -26,10 +26,7 @@ $md_trigger_end="<!-- @writeme -->";
 $md_doc .= "\n$md_trigger_end\n";
 
 $vars["git_branch_version"]="";
-$vars["composer_authors_list"]="";
 $vars["composer_copyright_year"]="";
-$vars["composer_deps_list"]="";
-$vars["docbloc_version"]="";
 
 // Extract composer.json data.
 $composer = json_decode(file_get_contents('composer.json'));
@@ -104,19 +101,20 @@ if (!$files) {
   die("No README.md files found, aborting.\n");
 }
 
-/* Generate docbloc function */
+// Write the README.
 function writeme($file,$filepath,$filetype,$doc){
   global ${$filetype."_trigger_end"}, ${$filetype."_trigger_start"};
   if (strpos($file,${$filetype."_trigger_end"}) !== false){
-    $matches=preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
-    //var_dump($matches);
-    unset($line_start);
-    unset($line_end);
+    $matches = preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
     foreach ($matches as $key=>$lin){
-      if (strpos($lin,${$filetype."_trigger_end"}) !== false) $line_end=$key;
+      if (strpos($lin,${$filetype."_trigger_end"}) !== false) {
+        $line_end = $key;
+      }
     }
     foreach ($matches as $key=>$lin){
-      if (strpos($lin,${$filetype."_trigger_start"}) !== false and strpos($lin,${$filetype."_trigger_end"})===false and $key<=$line_end) $line_start=$key;
+      if (strpos($lin,${$filetype."_trigger_start"}) !== false and strpos($lin,${$filetype."_trigger_end"}) === false and $key <= $line_end) {
+        $line_start=$key;
+      }
     }
     if (!isset($line_start)) {
       $line_start = $line_end;
@@ -132,9 +130,8 @@ function writeme($file,$filepath,$filetype,$doc){
   }
 }
 
-/* Updating your project scripts w/ new docBlock */
+// Update README files.
 foreach ($files as $filepath){
-  /* Generating docBlock */
   $filetype = pathinfo($filepath, PATHINFO_EXTENSION);
   $doc = ${$filetype."_doc"};
   foreach ($vars as $key=>$var){
