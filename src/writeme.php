@@ -36,13 +36,10 @@ if (isset($composer->authors)) {
       $vars["composer_authors_list"][] = $author->name." - ".$author->email;
     }
   }
-  $vars["composer_authors_list"] = implode("<authors_linestart>",$vars["composer_authors_list"]);
-  if (count($vars["composer_authors_list"]) == 1) {
-    $vars["composer_authors_list"]="<authors_linestart>".$vars["composer_authors_list"];
-  }
+  $composer_authors = "\n * " . implode("\n * ",$composer_authors_list);
 }
 else {
-  $vars["composer_authors_list"] = "";
+  $composer_authors = "";
 }
 
 if (isset($composer->require)) {
@@ -80,8 +77,10 @@ if ($composer_keywords) {
   $md .= "Tags: $composer_keywords\n\n";
 }
 $md .= "Project URL: <composer_homepage>\n\n";
-$md .= "<composer_authors_list>";
-$md_authors_linestart = "Author: ";
+if ($composer_authors) {
+  $md .= "\n\n### Authors";
+  $md .= $composer_authors;
+}
 $md .= "Copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>";
 $md .= "License: <a href='<composer_extra_license_url>'><composer_extra_license_title></a>";
 $md .= "\n\n### Requirements\n";
