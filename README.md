@@ -4,10 +4,12 @@ Writeme
 
 Create and keep updated a README.md for your project, fetching details from composer.json and Git. Composer does not need to be installed to use this tool.
 
-* http://gitlab.com/drutopia/writeme
-* Package name: drutopia/writeme
-* Git branch: dev-master
-* Keywords: php, docblock, documentation, tool
+ * http://gitlab.com/drutopia/writeme
+ * Documentation: https://docs.drutopia.org/
+ * Issues: http://gitlab.com/drutopia/writeme/issues
+ * Keywords: readme, composer, php, documentation, utility, script
+ * Package name: drutopia/writeme
+ * Git branch: dev-master
 
 
 ### Maintainers
