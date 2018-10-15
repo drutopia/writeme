@@ -6,29 +6,16 @@
  * Composer does not need to be installed to use this tool.
  */
 
-// Markdown
-$md_trigger_start='<!-- writeme -->';
+define('WRITEME_START', '<!-- writeme -->');
+define('WRITEME_END', '<!-- endwriteme -->');
 
-$md_doc="$md_trigger_start\n";
-$md_doc .= "<composer_description>\n\n";
-$md_doc .= "Package: <composer_name>\n\n";
-$md_doc .= "Version: <git_branch_version>\n\n";
-$md_doc .= "Tags: <composer_keywords>\n\n";
-$md_doc .= "Project URL: <composer_homepage>\n\n";
-$md_doc .= "<composer_authors_list>";
-$md_authors_linestart = "Author: ";
-$md_doc .= "Copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>";
-$md_doc .= "License: <a href='<composer_extra_license_url>'><composer_extra_license_title></a>";
-$md_doc .= "<composer_deps_list>";
-$md_deps_header = "\n\nDependencies\n";
-$md_deps_linestart=" &#8226; ";
-$md_trigger_end="<!-- @writeme -->";
-$md_doc .= "\n$md_trigger_end\n";
-
-$vars["git_branch_version"]="";
-$vars["composer_copyright_year"]="";
+$create = false;
 
 // Extract composer.json data.
+if (!file_exists("composer.json")) {
+  die("No composer.json file found.  Cannot extract data for README.\n");
+}
+
 $composer = json_decode(file_get_contents('composer.json'));
 
 $vars["composer_name"] = $composer->name;
@@ -79,12 +66,27 @@ if (file_exists('.git/HEAD')) {
   $git_branch_version = trim($explodedstring[2]);
   $vars["git_branch_version"] = $git_branch_version;
 }
+else {
+  echo "Not a git repository; no version for project found."
+}
 
 
-if (!file_exists("composer.json"))
-  die(" ** ./composer.json file not found, aborting...\n");
-if (!file_exists(".git/HEAD"))
-  echo " ** .git/HEAD file not found, the version of your project will not be fetched...\n";
+// Prepare README Markdown content.
+$md = WRITEME_START . "\n";
+$md .= "<composer_description>\n\n";
+$md .= "Package: <composer_name>\n\n";
+$md .= "Version: <git_branch_version>\n\n";
+$md .= "Tags: <composer_keywords>\n\n";
+$md .= "Project URL: <composer_homepage>\n\n";
+$md .= "<composer_authors_list>";
+$md_authors_linestart = "Author: ";
+$md .= "Copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>";
+$md .= "License: <a href='<composer_extra_license_url>'><composer_extra_license_title></a>";
+$md .= "<composer_deps_list>";
+$md_deps_header = "\n\nDependencies\n";
+$md_deps_linestart=" &#8226; ";
+$md .= "\n" . WRITEME_END . "\n";
+
 
 // Recursively list all matched files.
 $files = [];
@@ -98,13 +100,13 @@ foreach ($regex as $filepath => $regex) {
 }
 
 if (!$files) {
-  die("No README.md files found, aborting.\n");
+  $create = true;
 }
 
 // Write the README.
-function writeme($file,$filepath,$filetype,$doc){
-  global ${$filetype."_trigger_end"}, ${$filetype."_trigger_start"};
-  if (strpos($file,${$filetype."_trigger_end"}) !== false){
+function writeme($file, $filepath, $md, $create){
+  if ($create) {
+  if (strpos($file, WRITEME_START) !== false) {
     $matches = preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
     foreach ($matches as $key=>$lin){
       if (strpos($lin,${$filetype."_trigger_end"}) !== false) {
@@ -121,29 +123,24 @@ function writeme($file,$filepath,$filetype,$doc){
     }
     $filecontent = file($filepath);
     $remove = "";
-    //echo $line_start."@".$line_end;
-    for ($i = $line_start; $i <= $line_end; $i++) { $remove.=$filecontent[$i]; }
-    $file = str_replace($remove, $doc, $file);
-    echo "  > $filepath";
-    $file = file_put_contents($filepath,$file);
-    echo ".. updated.\n";
+    for ($i = $line_start; $i <= $line_end; $i++) {
+      $remove .= $filecontent[$i];
+    }
+    $contents = str_replace($remove, $md, $file);
+    file_put_contents($filepath, $contents);
   }
 }
 
 // Update README files.
 foreach ($files as $filepath){
-  $filetype = pathinfo($filepath, PATHINFO_EXTENSION);
-  $doc = ${$filetype."_doc"};
-  foreach ($vars as $key=>$var){
-    $doc = str_replace("<$key>", $var, $doc);
+  foreach ($vars as $key => $var){
+    $md = str_replace("<$key>", $var, $md);
   }
-  $doc = str_replace("<authors_linestart>", ${$filetype."_authors_linestart"}, $doc);
-  $doc = str_replace("<deps_header>", ${$filetype."_deps_header"}, $doc);
-  $doc = str_replace("<deps_linestart>", ${$filetype."_deps_linestart"}, $doc);
-  echo $doc;
+  $md = str_replace("<authors_linestart>", $md_authors_linestart, $md);
+  $md = str_replace("<deps_header>", $md_deps_header, $md);
+  $md = str_replace("<deps_linestart>", $md_deps_linestart, $md);
+  echo $md;
   $file = file_get_contents($filepath);
-  if ($filetype=="md"){
-    writeme($file,$filepath,$filetype,$doc);
-  }
+  writeme($file, $filepath, $md);
+  echo "$filepath/$file written!\n";
 }
-echo "# README.md written!\n";
