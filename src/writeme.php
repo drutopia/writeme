@@ -43,8 +43,7 @@ $vars["docbloc_version"]="";
 
 /* Extracting/formating composer.json data */
 $composer = json_decode(file_get_contents('composer.json'));
-$composer->keywords = implode(", ",$composer->keywords);
-$vars["composer_keywords"] = $composer->keywords;
+$vars["composer_keywords"] = isset($composer->keywords) ? implode(", ",$composer->keywords) : '';
 $vars["composer_description"] = $composer->description;
 $vars["composer_name"] = $composer->name;
 $vars["composer_homepage"] = $composer->homepage;
