@@ -45,17 +45,23 @@ $vars["composer_extra_license_url"] = isset($composer->extra->license_url) ? $co
 
 $vars["copyright_year"] = date("Y");
 
-foreach ($composer->authors as $author) {
-  if (isset($author->homepage)) {
-    $vars["composer_authors_list"][]=$author->name." - ".$author->homepage;
-  } else if (isset($author->email)) {
-    $vars["composer_authors_list"][]=$author->name." - ".$author->email;
+if (isset($composer->authors)) {
+  foreach ($composer->authors as $author) {
+    if (isset($author->homepage)) {
+      $vars["composer_authors_list"][] = $author->name." - ".$author->homepage;
+    } else if (isset($author->email)) {
+      $vars["composer_authors_list"][] = $author->name." - ".$author->email;
+    }
+  }
+  $vars["composer_authors_list"] = implode("<authors_linestart>",$vars["composer_authors_list"]);
+  if (count($vars["composer_authors_list"]) == 1) {
+    $vars["composer_authors_list"]="<authors_linestart>".$vars["composer_authors_list"];
   }
 }
-$vars["composer_authors_list"] = implode("<authors_linestart>",$vars["composer_authors_list"]);
-if (count($vars["composer_authors_list"]) == 1) {
-  $vars["composer_authors_list"]="<authors_linestart>".$vars["composer_authors_list"];
+else {
+  $vars["composer_authors_list"] = "";
 }
+
 if (isset($composer->require)) {
   $vars["composer_deps_list"]="<deps_header>";
   foreach($composer->require as $dep=>$vers){
