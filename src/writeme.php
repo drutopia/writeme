@@ -19,7 +19,7 @@
 	$php_doc.="\n*** @docbloc <docbloc_version> */";
 	$php_trigger="* @docbloc";
 
-	//md 
+	//md
 	$md_trigger_start='<!--';
 	$md_doc="$md_trigger_start docbloc -->\n<span id='docbloc'>\n<composer_description>\n<table>\n<tr>\n<th>Package</th>\n<td><composer_name></td>\n</tr>\n<tr>\n<th>Version</th>\n<td><git_branch_version></td>\n</tr>\n<tr>\n<th>Tags</th>\n<td><composer_keywords></td>\n</tr>\n<tr>\n<th>Project URL</th>\n<td><composer_homepage></td>\n</tr>";
 	$md_doc.="<composer_authors_list>";
@@ -85,8 +85,8 @@ if (isset($composer->require)){
 $git_branch_version="";
 if(file_exists('.git/HEAD')){
 	$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-	$firstLine = $stringfromfile[0]; 
-	$explodedstring = explode("/", $firstLine, 3); 
+	$firstLine = $stringfromfile[0];
+	$explodedstring = explode("/", $firstLine, 3);
 	$git_branch_version = trim($explodedstring[2]);
 	$vars["git_branch_version"]=$git_branch_version;
 }
@@ -108,15 +108,15 @@ foreach (token_get_all($file) as $token ) {
    $docbloc_author_nickname=strtok($docbloc_author, " ");
    break;
 }
-if (!isset($docbloc_author_nickname) or !isset($docbloc_version) 
-	or $docbloc_version<1 or $docbloc_author_nickname!="intrd") 
+if (!isset($docbloc_author_nickname) or !isset($docbloc_version)
+	or $docbloc_version<1 or $docbloc_author_nickname!="intrd")
 	die("\r\n*** docbloc.php file changed, please re-download.");
-echo "# PHP docBloc $docbloc_version (by $docbloc_author_nickname)\n"; 
+echo "# PHP docBloc $docbloc_version (by $docbloc_author_nickname)\n";
 echo " ** starting..\n";
 
-if (!file_exists("composer.json")) 
+if (!file_exists("composer.json"))
 	die(" ** ./composer.json file not found, aborting...\n");
-if (!file_exists(".git/HEAD")) 
+if (!file_exists(".git/HEAD"))
 	echo " ** .git/HEAD file not found, the version of your project will not be fetched...\n";
 
 /* Recursively list all matched files */
@@ -132,7 +132,7 @@ foreach($regex as $filepath => $regex){
 
 /* Generate docbloc function */
 function gen_docbloc($file,$filepath,$filetype,$doc){
-	global ${$filetype."_trigger_end"}, ${$filetype."_trigger_start"}; 
+	global ${$filetype."_trigger_end"}, ${$filetype."_trigger_start"};
 	if (strpos($file,${$filetype."_trigger_end"})!==false){
 		$matches=preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
 		//var_dump($matches);
