@@ -22,8 +22,6 @@
         }
     },
     "extra": {
-        "author_twitter": "drutopiaforgood",
-        "copyright_author": "Drutopia",
         "license_title": "GNU General Public License, version 2 or later",
         "license_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
     }

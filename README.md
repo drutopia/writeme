@@ -15,11 +15,12 @@ Create and keep updated a README.md for your project, fetching details from comp
  * Benjamin Melançon (mlncn) - http://agaric.coop/mlncn
 
 ### Requirements
-php >=5.3.6
+
+ * php >=5.3.6
 
 
 ### License
+
 [GPL-2.0+: GNU General Public License, version 2 or later](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-© Drutopia
 
 <!-- endwriteme -->

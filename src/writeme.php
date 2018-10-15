@@ -46,10 +46,10 @@ if (isset($composer->require)) {
   $composer_requirements = "No dependencies.\n";
 }
 
-$composer_suggestions = "";
+$composer_suggest = "";
 if (isset($composer->suggest)) {
   foreach ($composer->suggest as $dependency => $text){
-    $composer_suggestions .= " * $dependency: $text\n";
+    $composer_suggest .= " * $dependency: $text\n";
   }
 }
 
