@@ -58,18 +58,18 @@ foreach ($composer->authors as $author) {
     $vars["composer_authors_list"][]=$author->name." - ".$author->email;
   }
 }
-$vars["composer_authors_list"]=implode("<authors_linestart>",$vars["composer_authors_list"]);
-if (count($vars["composer_authors_list"])==1){
+$vars["composer_authors_list"] = implode("<authors_linestart>",$vars["composer_authors_list"]);
+if (count($vars["composer_authors_list"]) == 1) {
   $vars["composer_authors_list"]="<authors_linestart>".$vars["composer_authors_list"];
 }
-if (isset($composer->require)){
+if (isset($composer->require)) {
   $vars["composer_deps_list"]="<deps_header>";
   foreach($composer->require as $dep=>$vers){
-    $composer_deps_listarray[]="<deps_linestart>".$dep." ".$vers;
+    $composer_deps_listarray[] = "<deps_linestart>".$dep." ".$vers;
   }
-  $vars["composer_deps_list"].=implode("",$composer_deps_listarray);
+  $vars["composer_deps_list"] .= implode("",$composer_deps_listarray);
 }else{
-  $vars["composer_deps_list"]="<deps_header>No";
+  $vars["composer_deps_list"] = "<deps_header>No";
 }
 
 
