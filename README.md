@@ -1,10 +1,10 @@
 <!-- writeme -->
-Writme
-======
+Writeme
+=======
 
 Create and keep updated a README.md for your project, fetching details from composer.json and Git. Composer does not need to be installed to use this tool.
 
-Package: drutopia/writme
+Package: drutopia/writeme
 
 Version: dev-master
 
