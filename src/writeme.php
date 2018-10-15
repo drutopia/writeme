@@ -31,23 +31,27 @@ $composer_authors = "";
 if (isset($composer->authors)) {
   foreach ($composer->authors as $author) {
     if (isset($author->homepage)) {
-      $composer_authors_list[] = $author->name." - ".$author->homepage;
-    } else if (isset($author->email)) {
-      $composer_authors_list[] = $author->name." - ".$author->email;
+      $composer_authors .= " * " . $author->name . " - ". $author->homepage;
+    } elseif (isset($author->email)) {
+      $composer_authors .= " * " . $author->name . " - ". $author->email;
     }
   }
-  $composer_authors = "\n * " . implode("\n * ", $composer_authors_list);
 }
 
 if (isset($composer->require)) {
-  foreach($composer->require as $dependency => $version){
-    $composer_requirements_list[] = $dependency . " " . $version;
+  foreach ($composer->require as $dependency => $version){
+    $composer_requirements = " * $dependency $version\n";
   }
-  $composer_requirements = implode("\n * ", $composer_requirements_list);
 } else {
-  $composer_requirements = "\nNo dependencies.";
+  $composer_requirements = "No dependencies.\n";
 }
 
+$composer_suggestions = "";
+if (isset($composer->suggest)) {
+  foreach ($composer->suggest as $dependency => $text){
+    $composer_suggestions .= " * $dependency: $text\n";
+  }
+}
 
 // Extract .git/HEAD data.
 $git_branch_version = "";
@@ -79,17 +83,22 @@ if ($composer_keywords) {
 }
 
 if ($composer_authors) {
-  $md .= "\n\n### Maintainers\n";
+  $md .= "\n\n### Maintainers\n\n";
   $md .= $composer_authors;
 }
 
 if ($composer_requirements) {
-  $md .= "\n\n### Requirements\n";
-  $md .= $composer_requirements . "\n";
+  $md .= "\n\n### Requirements\n\n";
+  $md .= $composer_requirements;
+}
+
+if ($composer_suggest) {
+  $md .= "\n\n### Recommended\n\n";
+  $md .= $composer_suggest;
 }
 
 if ($composer_license) {
-  $md .= "\n\n### License\n";
+  $md .= "\n\n### License\n\n";
   $combined_title = $composer_license . (($composer_extra_license_title) ? ": $composer_extra_license_title" : "");
   $md .= ($composer_extra_license_url) ? "[" : "";
   $md .= $combined_title;
@@ -102,7 +111,7 @@ if ($composer_extra_copyright_author) {
 
 $md .= "\n" . WRITEME_END . "\n";
 
-// Recursively list all matched files.
+// Recursively list all matched markdown files.
 $files = [];
 $path = getcwd() . '/';
 $filetypes_regex='/^.+(.md)$/i'; //regex of file search
