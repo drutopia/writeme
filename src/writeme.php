@@ -96,9 +96,12 @@ $filetypes_regex='/^.+(.md)$/i'; //regex of file search
 $directory = new RecursiveDirectoryIterator($path);
 $iterator = new RecursiveIteratorIterator($directory);
 $regex = new RegexIterator($iterator, $filetypes_regex, RecursiveRegexIterator::GET_MATCH);
-$exclude="";
-foreach($regex as $filepath => $regex){
-  if (strpos($filepath,$exclude)===false) $files[]=$filepath;
+foreach ($regex as $filepath => $regex) {
+  $files[] = $filepath;
+}
+
+if (!$files) {
+  die("No README.md files found, aborting.\n");
 }
 
 /* Generate docbloc function */
