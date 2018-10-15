@@ -106,22 +106,22 @@ foreach($regex as $filepath => $regex){
 /* Generate docbloc function */
 function writeme($file,$filepath,$filetype,$doc){
   global ${$filetype."_trigger_end"}, ${$filetype."_trigger_start"};
-  if (strpos($file,${$filetype."_trigger_end"})!==false){
+  if (strpos($file,${$filetype."_trigger_end"}) !== false){
     $matches=preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
     //var_dump($matches);
     unset($line_start);
     unset($line_end);
-    foreach($matches as $key=>$lin){
-      if(strpos($lin,${$filetype."_trigger_end"})!==false) $line_end=$key;
+    foreach ($matches as $key=>$lin){
+      if (strpos($lin,${$filetype."_trigger_end"}) !== false) $line_end=$key;
     }
-    foreach($matches as $key=>$lin){
-      if(strpos($lin,${$filetype."_trigger_start"})!==false and strpos($lin,${$filetype."_trigger_end"})===false and $key<=$line_end) $line_start=$key;
+    foreach ($matches as $key=>$lin){
+      if (strpos($lin,${$filetype."_trigger_start"}) !== false and strpos($lin,${$filetype."_trigger_end"})===false and $key<=$line_end) $line_start=$key;
     }
     if (!isset($line_start)) {
-      $line_start=$line_end;
+      $line_start = $line_end;
     }
-    $filecontent=file($filepath);
-    $remove="";
+    $filecontent = file($filepath);
+    $remove = "";
     //echo $line_start."@".$line_end;
     for ($i = $line_start; $i <= $line_end; $i++) { $remove.=$filecontent[$i]; }
     $file = str_replace($remove, $doc, $file);
@@ -137,11 +137,12 @@ foreach ($files as $filepath){
   $filetype = pathinfo($filepath, PATHINFO_EXTENSION);
   $doc = ${$filetype."_doc"};
   foreach ($vars as $key=>$var){
-    $doc=str_replace("<$key>", $var, $doc);
+    $doc = str_replace("<$key>", $var, $doc);
   }
-  $doc=str_replace("<authors_linestart>", ${$filetype."_authors_linestart"}, $doc);
-  $doc=str_replace("<deps_header>", ${$filetype."_deps_header"}, $doc);
-  $doc=str_replace("<deps_linestart>", ${$filetype."_deps_linestart"}, $doc);
+  $doc = str_replace("<authors_linestart>", ${$filetype."_authors_linestart"}, $doc);
+  $doc = str_replace("<deps_header>", ${$filetype."_deps_header"}, $doc);
+  $doc = str_replace("<deps_linestart>", ${$filetype."_deps_linestart"}, $doc);
+  echo $doc;
   $file = file_get_contents($filepath);
   if ($filetype=="md"){
     writeme($file,$filepath,$filetype,$doc);
