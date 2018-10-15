@@ -1,7 +1,7 @@
 {
     "name": "drutopia/writeme",
     "description": "Create and keep updated a README.md for your project, fetching details from composer.json and Git. Composer does not need to be installed to use this tool.",
-    "keywords": ["php","docblock","documentation","tool"],
+    "keywords": ["readme", "composer", "php", "documentation", "utility", "script"],
     "homepage": "http://gitlab.com/drutopia/writeme",
     "support": {
         "docs": "https://docs.drutopia.org/",
