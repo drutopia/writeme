@@ -7,17 +7,6 @@
  */
 
 /* Default config */
-	//PHP SCRIPT
-	$php_trigger_start="/**";
-	$php_doc="$php_trigger_start\n * <composer_description>\n* \n* @package <composer_name>\n* @version <git_branch_version>\n* @tags <composer_keywords>\n* @link <composer_homepage>";
-	$php_doc.="<composer_authors_list>";
-	$php_authors_linestart="\n* @author ";
-	$php_doc.="\n* @copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>\n* @license <composer_extra_license_title> - <composer_extra_license_url>";
-	$php_doc.="<composer_deps_list>";
-	$php_deps_header="\n* Dependencies: ";
-	$php_deps_linestart="\n* - ";
-	$php_doc.="\n*** @docbloc <docbloc_version> */";
-	$php_trigger="* @docbloc";
 
 	//md
 	$md_trigger_start='<!--';
@@ -30,7 +19,6 @@
 	$md_deps_linestart=" &#8226; ";
 	$md_trigger_end="- @docbloc";
 	$md_doc.="</td>\n</tr>\n</table>\n</span>\n<!-$md_trigger_end <docbloc_version> -->\n";
-
 
 //Variables to be extracted..
 $vars["composer_description"]="";
