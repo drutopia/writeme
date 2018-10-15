@@ -9,7 +9,6 @@
 define('WRITEME_START', '<!-- writeme -->');
 define('WRITEME_END', '<!-- endwriteme -->');
 
-$create = false;
 
 // Extract composer.json data.
 if (!file_exists("composer.json")) {
@@ -18,8 +17,8 @@ if (!file_exists("composer.json")) {
 
 $composer = json_decode(file_get_contents('composer.json'));
 
-$vars["composer_name"] = $composer->name;
-$vars["composer_keywords"] = isset($composer->keywords) ? implode(", ",$composer->keywords) : "";
+$composer_name = $composer->name;
+$composer_keywords = isset($composer->keywords) ? implode(", ",$composer->keywords) : "";
 $vars["composer_description"] = isset($composer->description) ? $composer->description : "";
 $vars["composer_homepage"] = isset($composer->homepage) ? $composer->homepage : "";
 $vars["composer_license"] = isset($composer->license) ? $composer->license : "";
@@ -47,13 +46,12 @@ else {
 }
 
 if (isset($composer->require)) {
-  $vars["composer_deps_list"]="<deps_header>";
-  foreach($composer->require as $dep=>$vers){
-    $composer_deps_listarray[] = "<deps_linestart>".$dep." ".$vers;
+  foreach($composer->require as $dependency => $version){
+    $composer_requirements_list[] = $dependency . " " . $version;
   }
-  $vars["composer_deps_list"] .= implode("",$composer_deps_listarray);
+  $composer_requirements = implode("\n * ", $composer_requirements_list);
 } else {
-  $vars["composer_deps_list"] = "<deps_header>No";
+  $composer_requirements = "\nNo dependencies.";
 }
 
 
@@ -67,26 +65,33 @@ if (file_exists('.git/HEAD')) {
   $vars["git_branch_version"] = $git_branch_version;
 }
 else {
-  echo "Not a git repository; no version for project found."
+  echo "Not a git repository; no version for project found.";
 }
 
-
+$name = ucwords(str_replace("_", " ", explode("/", $composer_name)[1]));
 // Prepare README Markdown content.
 $md = WRITEME_START . "\n";
+$md .= "$name\n";
+$md .= str_repeat("=", strlen($name)) . "\n\n"; 
 $md .= "<composer_description>\n\n";
-$md .= "Package: <composer_name>\n\n";
+$md .= "Package: $composer_name\n\n";
 $md .= "Version: <git_branch_version>\n\n";
-$md .= "Tags: <composer_keywords>\n\n";
+if ($composer_keywords) {
+  $md .= "Tags: $composer_keywords\n\n";
+}
 $md .= "Project URL: <composer_homepage>\n\n";
 $md .= "<composer_authors_list>";
 $md_authors_linestart = "Author: ";
 $md .= "Copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>";
 $md .= "License: <a href='<composer_extra_license_url>'><composer_extra_license_title></a>";
-$md .= "<composer_deps_list>";
-$md_deps_header = "\n\nDependencies\n";
-$md_deps_linestart=" &#8226; ";
+$md .= "\n\n### Requirements\n";
+$md .= $composer_requirements . "\n";
 $md .= "\n" . WRITEME_END . "\n";
 
+foreach ($vars as $key => $var){
+  $md = str_replace("<$key>", $var, $md);
+}
+$md = str_replace("<authors_linestart>", $md_authors_linestart, $md);
 
 // Recursively list all matched files.
 $files = [];
@@ -99,48 +104,59 @@ foreach ($regex as $filepath => $regex) {
   $files[] = $filepath;
 }
 
-if (!$files) {
-  $create = true;
-}
+$create = ($files) ? false : true;
+
 
 // Write the README.
-function writeme($file, $filepath, $md, $create){
+function writeme($filepath, $md, $create){
+  $contents = "";
   if ($create) {
-  if (strpos($file, WRITEME_START) !== false) {
-    $matches = preg_grep('/'.${$filetype."_trigger_start"}.'/', file($filepath));
-    foreach ($matches as $key=>$lin){
-      if (strpos($lin,${$filetype."_trigger_end"}) !== false) {
-        $line_end = $key;
+    $contents = $md;
+  }
+  else {
+    $file = file_get_contents($filepath);
+    if (strpos($file, WRITEME_START) !== false) {
+      // Get the first line with a start tag and the last line with an end tag.
+      $writeme_start = false;
+      $lines = file($filepath);
+      foreach ($lines as $num => $line) {
+        if ($writeme_start === false and strpos($line, WRITEME_START) === 0) {
+          $writeme_start = $num;
+        } 
+        if (strpos($line, WRITEME_END) === 0) {
+          $writeme_end = $num;
+        }
       }
-    }
-    foreach ($matches as $key=>$lin){
-      if (strpos($lin,${$filetype."_trigger_start"}) !== false and strpos($lin,${$filetype."_trigger_end"}) === false and $key <= $line_end) {
-        $line_start=$key;
+      if (!isset($writeme_end)) {
+        $writeme_end = $num;
       }
+      $replace = "";
+      for ($i = $writeme_start; $i <= $writeme_end; $i++) {
+        $replace .= $lines[$i];
+      }
+      $contents = str_replace($replace, $md, $file);
     }
-    if (!isset($line_start)) {
-      $line_start = $line_end;
-    }
-    $filecontent = file($filepath);
-    $remove = "";
-    for ($i = $line_start; $i <= $line_end; $i++) {
-      $remove .= $filecontent[$i];
-    }
-    $contents = str_replace($remove, $md, $file);
+  }
+  if ($contents) { 
     file_put_contents($filepath, $contents);
+    return true;
+  }
+  else {
+    return false;
   }
 }
 
-// Update README files.
+if ($create) {
+  $files[] = $path . "README.md";
+}
+
+// Update README file.
 foreach ($files as $filepath){
-  foreach ($vars as $key => $var){
-    $md = str_replace("<$key>", $var, $md);
+  $success = writeme($filepath, $md, $create);
+  if ($success) {
+    echo "$filepath written!\n";
   }
-  $md = str_replace("<authors_linestart>", $md_authors_linestart, $md);
-  $md = str_replace("<deps_header>", $md_deps_header, $md);
-  $md = str_replace("<deps_linestart>", $md_deps_linestart, $md);
-  echo $md;
-  $file = file_get_contents($filepath);
-  writeme($file, $filepath, $md);
-  echo "$filepath/$file written!\n";
+  else {
+    echo "README ($filepath) already existed and " . WRITEME_START . " not found in it.\n";
+  }
 }
