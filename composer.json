@@ -2,8 +2,14 @@
     "name": "drutopia/writme",
     "description": "Create and keep updated a README.md for your project, fetching details from composer.json and Git. Composer does not need to be installed to use this tool.",
     "keywords": ["php","docblock","documentation","tool"],
-    "homepage": "http://github.com/intrd/php-docbloc",
+    "homepage": "http://gitlab.com/drutopia/writeme",
     "authors": [
+        {
+            "name": "mlncn (Benjamin Melançon)",
+            "email": "ben@agaric.com",
+            "homepage": "http://agaric.coop",
+            "role": "Developer"
+        },
         {
             "name": "intrd (Danilo Salles)",
             "email": "x@dann.com.br",
