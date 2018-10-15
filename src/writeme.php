@@ -89,8 +89,9 @@ if (!file_exists("composer.json"))
 if (!file_exists(".git/HEAD"))
   echo " ** .git/HEAD file not found, the version of your project will not be fetched...\n";
 
-/* Recursively list all matched files */
-$path=__DIR__.'/'; //current dir and upper levels
+// Recursively list all matched files.
+$files = [];
+$path = getcwd() . '/';
 $filetypes_regex='/^.+(.md)$/i'; //regex of file search
 $directory = new RecursiveDirectoryIterator($path);
 $iterator = new RecursiveIteratorIterator($directory);
