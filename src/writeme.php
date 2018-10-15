@@ -7,9 +7,9 @@
  */
 
 // Markdown
-$md_trigger_start='<!--';
+$md_trigger_start='<!-- writeme -->';
 
-$md_doc="$md_trigger_start writeme -->\n";
+$md_doc="$md_trigger_start\n";
 $md_doc .= "<composer_description>\n\n";
 $md_doc .= "Package: <composer_name>\n\n";
 $md_doc .= "Version: <git_branch_version>\n\n";
@@ -22,8 +22,8 @@ $md_doc .= "License: <a href='<composer_extra_license_url>'><composer_extra_lice
 $md_doc .= "<composer_deps_list>";
 $md_deps_header = "\n\nDependencies\n";
 $md_deps_linestart=" &#8226; ";
-$md_trigger_end="- @writem";
-$md_doc .= "\n\n<!-$md_trigger_end <docbloc_version> -->\n";
+$md_trigger_end="<!-- @writeme -->";
+$md_doc .= "\n$md_trigger_end\n";
 
 $vars["git_branch_version"]="";
 $vars["composer_authors_list"]="";
