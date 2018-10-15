@@ -6,10 +6,9 @@
  * Composer does not need to be installed to use this tool.
  */
 
-/* Default config */
-
 // Markdown
 $md_trigger_start='<!--';
+
 $md_doc="$md_trigger_start writeme -->\n";
 $md_doc .= "<composer_description>\n\n";
 $md_doc .= "Package: <composer_name>\n\n";
@@ -27,9 +26,7 @@ $md_trigger_end="- @writem";
 $md_doc .= "\n\n<!-$md_trigger_end <docbloc_version> -->\n";
 
 $vars["git_branch_version"]="";
-$vars["composer_homepage"]="";
 $vars["composer_authors_list"]="";
-$vars["composer_license"]="";
 $vars["composer_copyright_year"]="";
 $vars["composer_extra_copyright_author"]="";
 $vars["composer_extra_license_title"]="";
