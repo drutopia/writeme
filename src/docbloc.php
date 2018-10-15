@@ -1,16 +1,10 @@
 <?php
 /**
- * PHP docBloc - Generate and keep updated docBlock of your project files fetching details from composer.json and Git. Supported filetypes: *.php, *.ini, *.sh, *.bat, *.md (No Composer or PEAR need to be installed to use this tool). 
- * 
-* @package intrd/php-docbloc
-* @version 1.1
-* @tags: php, docblock, documentation, tool
-* @link http://github.com/intrd/php-docbloc
-* @author intrd (Danilo Salles) - http://dann.com.br
-* @copyright (CC-BY-SA-4.0) 2016, intrd
-* @license Creative Commons Attribution-ShareAlike 4.0 - http://creativecommons.org/licenses/by-sa/4.0
-* Dependencies: No
-*** @docbloc 1.1 */
+ * Create and keep updated a README.md for your project, fetching details from
+ * composer.json and Git.
+ *
+ * Composer does not need to be installed to use this tool.
+ */
 
 /* Default config */
 	//PHP SCRIPT
@@ -37,42 +31,6 @@
 	$md_trigger_end="- @docbloc";
 	$md_doc.="</td>\n</tr>\n</table>\n</span>\n<!-$md_trigger_end <docbloc_version> -->\n";
 
-	//SHELL SCRIPT
-	$sh_trigger_start="##";
-	$sh_doc="$sh_trigger_start\n# <composer_description>\n#\n# @package <composer_name>\n# @version <git_branch_version>\n# @tags <composer_keywords>\n# @link <composer_homepage>";
-	$sh_doc.="<composer_authors_list>";
-	$sh_authors_linestart="\n# @author ";
-	$sh_doc.="\n# @copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>\n# @license <composer_extra_license_title> - <composer_extra_license_url>";
-	$sh_doc.="<composer_deps_list>";
-	$sh_deps_header="\n# Dependencies: ";
-	$sh_deps_linestart="\n# - ";
-	$sh_doc.="\n## @docbloc <docbloc_version>\n";
-	$sh_trigger_end="# @docbloc";
-
-	//INI
-	$ini_trigger_start=";;";
-	$ini_doc="$ini_trigger_start\n; <composer_description>\n;\n; @package <composer_name>\n; @version <git_branch_version>\n; @tags <composer_keywords>\n; @link <composer_homepage>";
-	$ini_doc.="<composer_authors_list>";
-	$ini_authors_linestart="\n; @author ";
-	$ini_doc.="\n; @copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>\n; @license <composer_extra_license_title> - <composer_extra_license_url>";
-	$ini_doc.="<composer_deps_list>";
-	$ini_deps_header="\n; Dependencies: ";
-	$ini_deps_linestart="\n; - ";
-	$ini_doc.="\n;; @docbloc <docbloc_version>\n";
-	$ini_trigger_end="; @docbloc";
-
-	//BAT
-	$bat_trigger_start="REM";
-	$bat_doc="$bat_trigger_start\n:: <composer_description>\n::\n:: @package <composer_name>\n:: @version <git_branch_version>\n:: @tags <composer_keywords>\n:: @link <composer_homepage>";
-	$bat_doc.="<composer_authors_list>";
-	$bat_authors_linestart="\n:: @author ";
-	$bat_doc.="\n:: @copyright (<composer_license>) <copyright_year>, <composer_extra_copyright_author>\n:: @license <composer_extra_license_title> - <composer_extra_license_url>";
-	$bat_doc.="<composer_deps_list>";
-	$bat_deps_header="\n:: Dependencies: ";
-	$bat_deps_linestart="\n:: - ";
-	$bat_doc.="\nREM @docbloc <docbloc_version>\n";
-	$bat_trigger_end="REM @docbloc";
-/* End of config */
 
 //Variables to be extracted..
 $vars["composer_description"]="";
@@ -163,7 +121,7 @@ if (!file_exists(".git/HEAD"))
 
 /* Recursively list all matched files */
 $path=__DIR__.'/'; //current dir and upper levels
-$filetypes_regex='/^.+(.php|.sh|.ini|.bat|.md)$/i'; //regex of file search
+$filetypes_regex='/^.+(.md)$/i'; //regex of file search
 $directory = new RecursiveDirectoryIterator($path);
 $iterator = new RecursiveIteratorIterator($directory);
 $regex = new RegexIterator($iterator, $filetypes_regex, RecursiveRegexIterator::GET_MATCH);
@@ -225,7 +183,7 @@ foreach ($files as $filepath){
 		}
 	}
 	//SHELL SCRIPT
-	if ($filetype=="sh" or $filetype=="ini" or $filetype=="bat" or $filetype=="md"){
+	if ($filetype=="md"){
 		gen_docbloc($file,$filepath,$filetype,$doc); //other filetypes need gen_docbloc() to extract docbloc
 	}
 }
