@@ -72,12 +72,12 @@ if (isset($composer->require)) {
 
 /* Extracting/formating .git/HEAD data */
 $git_branch_version="";
-if(file_exists('.git/HEAD')){
+if (file_exists('.git/HEAD')) {
   $stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
   $firstLine = $stringfromfile[0];
   $explodedstring = explode("/", $firstLine, 3);
   $git_branch_version = trim($explodedstring[2]);
-  $vars["git_branch_version"]=$git_branch_version;
+  $vars["git_branch_version"] = $git_branch_version;
 }
 
 
