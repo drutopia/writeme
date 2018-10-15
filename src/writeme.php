@@ -89,14 +89,15 @@ if ($composer_requirements) {
 }
 
 if ($composer_license) {
-  $md .= "\n\n### License\n\n";
-  $combined_title = $composer_license . ($composer_extra_license_title) ? ": $composer_extra_license_title" : "";
+  $md .= "\n\n### License\n";
+  $combined_title = $composer_license . (($composer_extra_license_title) ? ": $composer_extra_license_title" : "");
   $md .= ($composer_extra_license_url) ? "[" : "";
   $md .= $combined_title;
   $md .= ($composer_extra_license_url) ? "]($composer_extra_license_url)" : "";
+  $md .= "\n";
 }
 if ($composer_extra_copyright_author) {
-  $md .= "© $composer_extra_copyright_author";
+  $md .= "© $composer_extra_copyright_author\n";
 }
 
 $md .= "\n" . WRITEME_END . "\n";
