@@ -8,17 +8,17 @@
 
 /* Default config */
 
-	//md
-	$md_trigger_start='<!--';
-	$md_doc="$md_trigger_start docbloc -->\n<span id='docbloc'>\n<composer_description>\n<table>\n<tr>\n<th>Package</th>\n<td><composer_name></td>\n</tr>\n<tr>\n<th>Version</th>\n<td><git_branch_version></td>\n</tr>\n<tr>\n<th>Tags</th>\n<td><composer_keywords></td>\n</tr>\n<tr>\n<th>Project URL</th>\n<td><composer_homepage></td>\n</tr>";
-	$md_doc.="<composer_authors_list>";
-	$md_authors_linestart="\n<tr>\n<th>Author</th>\n<td>";
-	$md_doc.="</td>\n<tr>\n<th>Copyright</th>\n<td>(<composer_license>) <copyright_year>, <composer_extra_copyright_author></td>\n</tr>\n<tr>\n<th>License</th>\n<td><a href='<composer_extra_license_url>'><composer_extra_license_title></a></td>\n</tr>";
-	$md_doc.="<composer_deps_list>";
-	$md_deps_header="\n<tr>\n<th>Dependencies</th>\n<td>";
-	$md_deps_linestart=" &#8226; ";
-	$md_trigger_end="- @docbloc";
-	$md_doc.="</td>\n</tr>\n</table>\n</span>\n<!-$md_trigger_end <docbloc_version> -->\n";
+// Markdown
+$md_trigger_start='<!--';
+$md_doc="$md_trigger_start docbloc -->\n<span id='docbloc'>\n<composer_description>\n<table>\n<tr>\n<th>Package</th>\n<td><composer_name></td>\n</tr>\n<tr>\n<th>Version</th>\n<td><git_branch_version></td>\n</tr>\n<tr>\n<th>Tags</th>\n<td><composer_keywords></td>\n</tr>\n<tr>\n<th>Project URL</th>\n<td><composer_homepage></td>\n</tr>";
+$md_doc.="<composer_authors_list>";
+$md_authors_linestart="\n<tr>\n<th>Author</th>\n<td>";
+$md_doc.="</td>\n<tr>\n<th>Copyright</th>\n<td>(<composer_license>) <copyright_year>, <composer_extra_copyright_author></td>\n</tr>\n<tr>\n<th>License</th>\n<td><a href='<composer_extra_license_url>'><composer_extra_license_title></a></td>\n</tr>";
+$md_doc.="<composer_deps_list>";
+$md_deps_header="\n<tr>\n<th>Dependencies</th>\n<td>";
+$md_deps_linestart=" &#8226; ";
+$md_trigger_end="- @docbloc";
+$md_doc.="</td>\n</tr>\n</table>\n</span>\n<!-$md_trigger_end <docbloc_version> -->\n";
 
 //Variables to be extracted..
 $vars["composer_description"]="";
