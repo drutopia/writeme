@@ -129,10 +129,10 @@ $md .= "\n" . WRITEME_END . "\n";
 // Recursively list all matched markdown files.
 $files = [];
 $path = getcwd() . '/';
-$filetypes_regex='/^.+(.md)$/i'; //regex of file search
+$files_regex='/^.+(.md)$/i';
 $directory = new RecursiveDirectoryIterator($path);
 $iterator = new RecursiveIteratorIterator($directory);
-$regex = new RegexIterator($iterator, $filetypes_regex, RecursiveRegexIterator::GET_MATCH);
+$regex = new RegexIterator($iterator, $files_regex, RecursiveRegexIterator::GET_MATCH);
 foreach ($regex as $filepath => $regex) {
   $files[] = $filepath;
 }
