@@ -57,16 +57,6 @@ if (isset($composer->suggest)) {
   }
 }
 
-// Extract .git/HEAD data.
-$git_branch_version = "";
-if (file_exists('.git/HEAD')) {
-  $file = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-  $git_branch_version = trim(explode("/", $file[0], 3)[2]);
-}
-else {
-  echo "Not a git repository; no version for project found.";
-}
-
 $name = ucwords(str_replace("_", " ", explode("/", $composer_name)[1]));
 // Prepare README Markdown content.
 $md = WRITEME_START . "\n";
@@ -106,9 +96,6 @@ if ($composer_keywords) {
 }
 
 $md .= " * Package name: $composer_name\n";
-if ($git_branch_version) {
-  $md .= " * Git branch: $git_branch_version\n";
-}
 
 if ($composer_authors) {
   $md .= "\n\n### Maintainers\n\n";
